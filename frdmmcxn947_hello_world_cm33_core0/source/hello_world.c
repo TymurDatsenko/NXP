@@ -1,46 +1,13 @@
-/*
- * Copyright (c) 2013 - 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2017, 2024 NXP
- * All rights reserved.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
+#include "fsl_gpio.h"
+#include "pin_mux.h"
 
-#include "fsl_device_registers.h"
-#include "fsl_debug_console.h"
-#include "board.h"
-#include "app.h"
+int main(void) {
+    BOARD_InitBootPins();
 
-/*******************************************************************************
- * Definitions
- ******************************************************************************/
-
-/*******************************************************************************
- * Prototypes
- ******************************************************************************/
-
-/*******************************************************************************
- * Variables
- ******************************************************************************/
-
-/*******************************************************************************
- * Code
- ******************************************************************************/
-/*!
- * @brief Main function
- */
-int main(void)
-{
-    char ch;
-
-    /* Init board hardware. */
-    BOARD_InitHardware();
-
-    PRINTF("hello world.\r\n");
-
-    while (1)
-    {
-        ch = GETCHAR();
-        PUTCHAR(ch);
+    while (1) {
+        // Poll switch and toggle LED
+        if (GPIO_PinRead(BOARD_BT_E_GPIO, BOARD_BT_E_PIN) == 0) {
+            GPIO_PinWrite(BOARD_LED_B_GPIO, BOARD_LED_B_PIN, 1);
+        }
     }
 }
